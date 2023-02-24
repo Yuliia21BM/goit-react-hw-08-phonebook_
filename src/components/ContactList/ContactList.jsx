@@ -25,15 +25,22 @@ export const ContactList = () => {
 
   return (
     <ContactsList>
-      {visibleContacts?.map(({ id, name, number }) => {
-        return (
-          <ContactItem key={id}>
-            <span>&#128241;</span>
-            {name} : {number}
-            <DeleteBtn onClick={() => deleteContact(id)}>Delete</DeleteBtn>
-          </ContactItem>
-        );
-      })}
+      {visibleContacts?.map(
+        ({ id, name, number, avatar, email, description }) => {
+          console.log('name', name);
+          console.log('number', number);
+          console.log('avatar', avatar);
+          console.log('email', email);
+          console.log('description', description);
+          return (
+            <ContactItem key={id}>
+              <span>&#128241;</span>
+              {name} : {number}
+              <DeleteBtn onClick={() => deleteContact(id)}>Delete</DeleteBtn>
+            </ContactItem>
+          );
+        }
+      )}
     </ContactsList>
   );
 };
