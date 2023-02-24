@@ -6,14 +6,19 @@ import {
   FormControl,
   FormLabel,
   Input,
+  InputGroup,
+  InputRightElement,
 } from '@chakra-ui/react';
 import { ModalWrap } from 'components/ModalWrap/ModalWrap';
 import { useState } from 'react';
+import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 
 export const SignupModal = ({ isOpen, onClose }) => {
   const [userName, setUserName] = useState('');
   const [userEmail, setUserEmail] = useState('');
   const [userPasword, setUserPasword] = useState('');
+  const [show, setShow] = useState(false);
+
   return (
     <ModalWrap isOpen={isOpen} onClose={onClose}>
       <Flex width="full" align="center" justifyContent="center">
@@ -45,13 +50,26 @@ export const SignupModal = ({ isOpen, onClose }) => {
               </FormControl>
               <FormControl mt={6} isRequired>
                 <FormLabel>Password</FormLabel>
-                <Input
-                  value={userPasword}
-                  type="password"
-                  placeholder="*******"
-                  _placeholder={{ opacity: 1, color: 'teal.700' }}
-                  onChange={e => setUserPasword(e.target.value)}
-                />
+                <InputGroup>
+                  <Input
+                    value={userPasword}
+                    placeholder="*******"
+                    _placeholder={{ opacity: 1, color: 'yellow.700' }}
+                    onChange={e => setUserPasword(e.target.value)}
+                    type={show ? 'text' : 'password'}
+                  />
+                  <InputRightElement>
+                    <Button
+                      bgColor="transparent"
+                      border="none"
+                      h="1.75rem"
+                      size="sm"
+                      onClick={() => setShow(!show)}
+                    >
+                      {show ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
+                    </Button>
+                  </InputRightElement>
+                </InputGroup>
               </FormControl>
               <Button
                 type="submit"

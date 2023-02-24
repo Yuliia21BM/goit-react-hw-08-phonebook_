@@ -7,12 +7,16 @@ import {
   FormControl,
   FormLabel,
   Input,
+  InputGroup,
+  InputRightElement,
 } from '@chakra-ui/react';
+import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 
 import { ModalWrap } from 'components/ModalWrap/ModalWrap';
 
 export const LoginModal = ({ isOpen, onClose }) => {
   const [userPasword, setUserPasword] = useState('');
+  const [show, setShow] = useState(false);
   const [userEmail, setUserEmail] = useState('');
   return (
     <ModalWrap isOpen={isOpen} onClose={onClose}>
@@ -35,13 +39,26 @@ export const LoginModal = ({ isOpen, onClose }) => {
               </FormControl>
               <FormControl mt={6} isRequired>
                 <FormLabel>Password</FormLabel>
-                <Input
-                  value={userPasword}
-                  type="password"
-                  placeholder="*******"
-                  _placeholder={{ opacity: 1, color: 'yellow.700' }}
-                  onChange={e => setUserPasword(e.target.value)}
-                />
+                <InputGroup>
+                  <Input
+                    value={userPasword}
+                    placeholder="*******"
+                    _placeholder={{ opacity: 1, color: 'yellow.700' }}
+                    onChange={e => setUserPasword(e.target.value)}
+                    type={show ? 'text' : 'password'}
+                  />
+                  <InputRightElement>
+                    <Button
+                      bgColor="transparent"
+                      border="none"
+                      h="1.75rem"
+                      size="sm"
+                      onClick={() => setShow(!show)}
+                    >
+                      {show ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
+                    </Button>
+                  </InputRightElement>
+                </InputGroup>
               </FormControl>
               <Button
                 type="submit"
