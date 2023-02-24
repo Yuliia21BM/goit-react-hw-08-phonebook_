@@ -1,6 +1,7 @@
 import React from 'react';
 import { nanoid } from 'nanoid';
 import { Formik, Form, Field } from 'formik';
+import { useState } from 'react';
 
 import {
   FormErrorMessage,
@@ -26,18 +27,21 @@ const nameId = nanoid();
 const numberId = nanoid();
 
 export const ContactForm = ({ onClose }) => {
+  const [newName, setNewName] = useState('');
+  const [newNumber, setNewNumber] = useState('');
   const [addContact] = useAddContactMutation();
   const { data } = useFetchContactsQuery();
 
-  const formSubmitHandler = ({ name, number }, { resetForm }) => {
-    const invalidName = data.find(state => state.name === name);
+  const formSubmitHandler = (_, { resetForm }) => {
+    console.log(newName, newNumber);
+    const invalidName = data.find(state => state.name === newName);
 
     if (invalidName) {
-      Notification(name);
+      Notification(newName);
       resetForm();
       return;
     }
-    addContact({ name, number });
+    addContact({ name: newName, number: newNumber });
     onClose();
     resetForm();
   };
@@ -59,10 +63,12 @@ export const ContactForm = ({ onClose }) => {
                       <FormLabel>Name</FormLabel>
                       <Input
                         {...field}
+                        value={newName}
                         type="text"
                         placeholder="John Doe"
                         _placeholder={{ opacity: 1, color: 'teal.700' }}
                         pattern={patternName}
+                        onChange={e => setNewName(e.target.value)}
                       />
                       <FormErrorMessage>{form.errors.name}</FormErrorMessage>
                     </FormControl>
@@ -77,10 +83,12 @@ export const ContactForm = ({ onClose }) => {
                       <FormLabel>Nunber</FormLabel>
                       <Input
                         {...field}
+                        value={newNumber}
                         type="telephone"
                         placeholder="0960000000"
                         _placeholder={{ opacity: 1, color: 'teal.700' }}
                         pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
+                        onChange={e => setNewNumber(e.target.value)}
                       />
                       <FormErrorMessage>{form.errors.name}</FormErrorMessage>
                     </FormControl>

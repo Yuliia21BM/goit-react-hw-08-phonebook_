@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
   Button,
   Flex,
@@ -11,6 +12,8 @@ import {
 import { ModalWrap } from 'components/ModalWrap/ModalWrap';
 
 export const LoginModal = ({ isOpen, onClose }) => {
+  const [userPasword, setUserPasword] = useState('');
+  const [userEmail, setUserEmail] = useState('');
   return (
     <ModalWrap isOpen={isOpen} onClose={onClose}>
       <Flex width="full" align="center" justifyContent="center">
@@ -23,17 +26,21 @@ export const LoginModal = ({ isOpen, onClose }) => {
               <FormControl isRequired>
                 <FormLabel>Email</FormLabel>
                 <Input
+                  value={userEmail}
                   type="email"
                   placeholder="test@test.com"
                   _placeholder={{ opacity: 1, color: 'yellow.700' }}
+                  onChange={e => setUserEmail(e.target.value)}
                 />
               </FormControl>
               <FormControl mt={6} isRequired>
                 <FormLabel>Password</FormLabel>
                 <Input
+                  value={userPasword}
                   type="password"
                   placeholder="*******"
                   _placeholder={{ opacity: 1, color: 'yellow.700' }}
+                  onChange={e => setUserPasword(e.target.value)}
                 />
               </FormControl>
               <Button
