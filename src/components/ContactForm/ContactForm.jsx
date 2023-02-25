@@ -12,8 +12,8 @@ import {
   Flex,
   Box,
   Heading,
-  Select,
-  Textarea,
+  // Select,
+  // Textarea,
 } from '@chakra-ui/react';
 
 import {
@@ -23,7 +23,14 @@ import {
 
 import { Notification, patternName } from 'components/utiles';
 
-const initialValues = { name: '', number: '' };
+const initialValues = {
+  name: '',
+  number: '',
+  // email: '',
+  // birthday: new Date().toISOString().split('T')[0],
+  // avatar: 'default',
+  // description: '',
+};
 
 const nameId = nanoid();
 const numberId = nanoid();
@@ -31,10 +38,12 @@ const numberId = nanoid();
 export const ContactForm = ({ onClose }) => {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
-  const [email, setEmail] = useState('');
-  const [birthday, setBirthday] = useState('');
-  const [avatar, setAvatar] = useState('default');
-  const [description, setDescription] = useState('');
+  // const [email, setEmail] = useState('');
+  // const [birthday, setBirthday] = useState(
+  //   new Date().toISOString().split('T')[0]
+  // );
+  // const [avatar, setAvatar] = useState('default');
+  // const [description, setDescription] = useState('');
   const [addContact] = useAddContactMutation();
   const { data } = useFetchContactsQuery();
 
@@ -47,7 +56,7 @@ export const ContactForm = ({ onClose }) => {
       resetForm();
       return;
     }
-    addContact({ name, number, email, avatar, description, birthday });
+    addContact({ name, number });
     onClose();
     resetForm();
   };
@@ -64,6 +73,7 @@ export const ContactForm = ({ onClose }) => {
                 <Field name="name" id={nameId}>
                   {({ field, form }) => (
                     <FormControl
+                      isRequired
                       isInvalid={form.errors.name && form.touched.name}
                     >
                       <FormLabel>Name</FormLabel>
@@ -83,6 +93,7 @@ export const ContactForm = ({ onClose }) => {
                 <Field name="number" patern={patternName} id={numberId}>
                   {({ field, form }) => (
                     <FormControl
+                      isRequired
                       mt={4}
                       isInvalid={form.errors.name && form.touched.name}
                     >
@@ -101,7 +112,7 @@ export const ContactForm = ({ onClose }) => {
                   )}
                 </Field>
 
-                <Field name="email" id={nameId}>
+                {/* <Field name="email" id={nameId}>
                   {({ field, form }) => (
                     <FormControl
                       mt={4}
@@ -112,9 +123,8 @@ export const ContactForm = ({ onClose }) => {
                         {...field}
                         value={email}
                         type="text"
-                        placeholder="John Doe"
+                        placeholder="test@test.com"
                         _placeholder={{ opacity: 1, color: 'teal.700' }}
-                        // pattern={patternName}
                         onChange={e => setEmail(e.target.value)}
                       />
                       <FormErrorMessage>{form.errors.name}</FormErrorMessage>
@@ -130,10 +140,13 @@ export const ContactForm = ({ onClose }) => {
                     >
                       <FormLabel>Birthday</FormLabel>
                       <Input
+                        {...field}
                         value={birthday}
+                        max={new Date().toISOString().split('T')[0]}
                         placeholder="Select Date and Time"
+                        _placeholder={{ opacity: 1, color: 'teal.700' }}
                         size="md"
-                        type="datetime-local"
+                        type="date"
                         onChange={e => setBirthday(e.target.value)}
                       />
                       <FormErrorMessage>{form.errors.name}</FormErrorMessage>
@@ -148,7 +161,7 @@ export const ContactForm = ({ onClose }) => {
                     >
                       <FormLabel>Avatar</FormLabel>
                       <Select
-                        // placeholder="Avatar option"
+                        {...field}
                         value={avatar}
                         onChange={e => setAvatar(e.target.value)}
                       >
@@ -168,15 +181,17 @@ export const ContactForm = ({ onClose }) => {
                     >
                       <FormLabel>Description</FormLabel>
                       <Textarea
+                        {...field}
                         value={description}
                         onChange={e => setDescription(e.target.value)}
                         placeholder="Here you can write some description"
+                        _placeholder={{ opacity: 1, color: 'teal.700' }}
                         size="sm"
                       />
                       <FormErrorMessage>{form.errors.name}</FormErrorMessage>
                     </FormControl>
                   )}
-                </Field>
+                </Field> */}
                 <Button
                   type="submit"
                   colorScheme="yellow"

@@ -18,18 +18,16 @@ const HomePage = () => {
             display={'flex'}
             gap={'10px'}
             alignItems={'center'}
+            as="cite"
           >
             Hi <BsEmojiSmileUpsideDown />
           </Heading>
-          <Heading as="h1" size="xl">
+          <Heading as="cite" size="xl">
             I am your personal ContactBook
           </Heading>
         </Flex>
         <Image src={GiffPage} alt="funny dog writes a notes" width="500px" />
-        <Text>
-          Here you can save all your contacts with detailed information about
-          them
-        </Text>
+        <Text as="cite">Here you can save all your contacts</Text>
       </Flex>
     </Container>
   );

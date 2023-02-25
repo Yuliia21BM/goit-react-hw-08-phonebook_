@@ -8,16 +8,19 @@ import {
   // Flex,
   // Spacer,
   // Link,
-  // Box,
+  Box,
+  Flex,
   // useColorMode,
 } from '@chakra-ui/react';
 
 import { Container } from 'components/utiles';
-import { Box } from 'components/Box';
 import { ContactForm } from 'components/ContactForm';
 import { Filter } from 'components/Filter';
 import { ContactList } from 'components/ContactList/ContactList';
 import { ModalWrap } from 'components/ModalWrap/ModalWrap';
+import { TbUserPlus } from 'react-icons/tb';
+
+const modalRoot = document.querySelector('#modal-root');
 
 const ContactsPage = () => {
   const { error, isLoading } = useFetchContactsQuery();
@@ -26,12 +29,21 @@ const ContactsPage = () => {
   return (
     <>
       <Container>
-        <Box p="10px">
-          <Button colorScheme="teal" onClick={onOpen}>
-            Add
+        <Box p="10px" position="relative">
+          <Button
+            variant="outline"
+            position={'absolute'}
+            top="20px"
+            right={'95px'}
+            colorScheme="teal"
+            onClick={onOpen}
+            size="lg"
+          >
+            <TbUserPlus enableBackground={'teal'} size="1.3em" />
           </Button>
-          <h2>Contacts</h2>
-          <Filter />
+          <Flex justifyContent={'center'}>
+            <Filter />
+          </Flex>
           {isLoading && !error && <b>Request in progress...</b>}
           <ContactList />
           <ToastContainer autoClose={3000} />
@@ -40,7 +52,7 @@ const ContactsPage = () => {
           <ModalWrap isOpen={isOpen} onClose={onClose}>
             <ContactForm onClose={onClose} />
           </ModalWrap>,
-          document.body
+          modalRoot
         )}
       </Container>
     </>

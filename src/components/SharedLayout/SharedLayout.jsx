@@ -39,6 +39,8 @@ const StyledLink = styled(Link)`
   }
 `;
 
+const modalRoot = document.querySelector('#modal-root');
+
 export const SharedLayout = () => {
   const loginModal = useDisclosure();
   const signupModal = useDisclosure();
@@ -129,14 +131,14 @@ export const SharedLayout = () => {
       </Box>
       {createPortal(
         <LoginModal isOpen={loginModal.isOpen} onClose={loginModal.onClose} />,
-        document.body
+        modalRoot
       )}
       {createPortal(
         <SignupModal
           isOpen={signupModal.isOpen}
           onClose={signupModal.onClose}
         />,
-        document.body
+        modalRoot
       )}
     </Box>
   );

@@ -5,7 +5,8 @@ import {
   useDeleteContactMutation,
 } from 'components/redux/contactsApi';
 
-import { ContactsList, ContactItem, DeleteBtn } from './ContactList.styled';
+import { RiEditLine } from 'react-icons/ri';
+import { Avatar, Box, Button, Flex, Text } from '@chakra-ui/react';
 
 const getFilteredContacts = (contacts, filterValue) => {
   if (filterValue === '') {
@@ -24,23 +25,33 @@ export const ContactList = () => {
   const visibleContacts = getFilteredContacts(data, filterValue);
 
   return (
-    <ContactsList>
-      {visibleContacts?.map(
-        ({ id, name, number, avatar, email, description }) => {
-          console.log('name', name);
-          console.log('number', number);
-          console.log('avatar', avatar);
-          console.log('email', email);
-          console.log('description', description);
+    <Box p="10px" pt="40px">
+      <Flex gap={'20px'} flexDirection="column">
+        {visibleContacts?.map(({ id, name, number }) => {
           return (
-            <ContactItem key={id}>
-              <span>&#128241;</span>
-              {name} : {number}
-              <DeleteBtn onClick={() => deleteContact(id)}>Delete</DeleteBtn>
-            </ContactItem>
+            <Flex key={id} alignItems="center" justifyContent={'space-between'}>
+              <Avatar name={name} colorScheme="twitter" size="md" />
+              <Text fontSize="xl" as="cite">
+                {' '}
+                {name}:
+              </Text>
+              <Text fontSize="xl"> {number}</Text>
+              <Flex gap={'20px'}>
+                <Button
+                  colorScheme="red"
+                  variant="outline"
+                  onClick={() => deleteContact(id)}
+                >
+                  Delete
+                </Button>
+                <Button variant="outline" colorScheme="yellow">
+                  <RiEditLine />
+                </Button>
+              </Flex>
+            </Flex>
           );
-        }
-      )}
-    </ContactsList>
+        })}
+      </Flex>
+    </Box>
   );
 };
