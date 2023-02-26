@@ -12,12 +12,25 @@ import {
 import { ModalWrap } from 'components/ModalWrap/ModalWrap';
 import { useState } from 'react';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
+import { useSignupUserMutation } from 'components/redux/authApi';
 
 export const SignupModal = ({ isOpen, onClose }) => {
   const [userName, setUserName] = useState('');
   const [userEmail, setUserEmail] = useState('');
   const [userPasword, setUserPasword] = useState('');
   const [show, setShow] = useState(false);
+  const [signupUser, { isLoading }] = useSignupUserMutation();
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    signupUser(
+      JSON.stringify({
+        name: userName,
+        email: userEmail,
+        password: userPasword,
+      })
+    ).then(() => console.log(isLoading));
+  };
 
   return (
     <ModalWrap isOpen={isOpen} onClose={onClose}>
@@ -27,7 +40,7 @@ export const SignupModal = ({ isOpen, onClose }) => {
             <Heading>Sign Up</Heading>
           </Box>
           <Box my={4} textAlign="left">
-            <form>
+            <form onSubmit={handleSubmit}>
               <FormControl isRequired>
                 <FormLabel>Name</FormLabel>
                 <Input

@@ -18,6 +18,7 @@ export const LoginModal = ({ isOpen, onClose }) => {
   const [userPasword, setUserPasword] = useState('');
   const [show, setShow] = useState(false);
   const [userEmail, setUserEmail] = useState('');
+
   return (
     <ModalWrap isOpen={isOpen} onClose={onClose}>
       <Flex width="full" align="center" justifyContent="center">
