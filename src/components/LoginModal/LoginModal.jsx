@@ -11,6 +11,7 @@ import {
   InputRightElement,
 } from '@chakra-ui/react';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
+import { useLoginUserMutation } from 'components/redux/authApi';
 
 import { ModalWrap } from 'components/ModalWrap/ModalWrap';
 
@@ -18,6 +19,18 @@ export const LoginModal = ({ isOpen, onClose }) => {
   const [userPasword, setUserPasword] = useState('');
   const [show, setShow] = useState(false);
   const [userEmail, setUserEmail] = useState('');
+
+  const [login, { isLoading, isError }] = useLoginUserMutation();
+
+  const handleSubmiLogimForm = e => {
+    e.preventDefault();
+    login({
+      email: userEmail,
+      password: userPasword,
+    })
+      .then(res => console.log(res.data.token, isLoading, isError))
+      .catch(err => console.log(err));
+  };
 
   return (
     <ModalWrap isOpen={isOpen} onClose={onClose}>
@@ -27,7 +40,7 @@ export const LoginModal = ({ isOpen, onClose }) => {
             <Heading>Login</Heading>
           </Box>
           <Box my={4} textAlign="left">
-            <form>
+            <form onSubmit={handleSubmiLogimForm}>
               <FormControl isRequired>
                 <FormLabel>Email</FormLabel>
                 <Input

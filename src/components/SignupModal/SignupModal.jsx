@@ -23,13 +23,11 @@ export const SignupModal = ({ isOpen, onClose }) => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    signupUser(
-      JSON.stringify({
-        name: userName,
-        email: userEmail,
-        password: userPasword,
-      })
-    ).then(() => console.log(isLoading));
+    signupUser({
+      name: userName,
+      email: userEmail,
+      password: userPasword,
+    }).then(res => console.log(res, isLoading));
   };
 
   return (

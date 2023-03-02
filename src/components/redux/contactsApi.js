@@ -2,21 +2,22 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 export const contactsApi = createApi({
   reducerPath: 'contactsApi',
-  // baseQuery: fetchBaseQuery({
-  //   // baseUrl: 'https://connections-api.herokuapp.com',
-  //   baseUrl: 'https://63ee9f6d5e9f1583bdc58f87.mockapi.io/contacts',
-  // }),
   baseQuery: fetchBaseQuery({
+    // baseUrl: 'https://connections-api.herokuapp.com',
     baseUrl: 'https://63ee9f6d5e9f1583bdc58f87.mockapi.io/contacts',
-    // prepareHeaders: (headers, { getState }) => {
-    // By default, if we have a token in the store, let's use that for authenticated requests
-    //   const token = (getState() as RootState).auth.token
-    //   if (token) {
-    //     headers.set('authorization', `Bearer ${token}`)
-    //   }
-    //   return headers
-    // },
   }),
+  // baseQuery: fetchBaseQuery({
+  //   baseUrl: 'https://connections-api.herokuapp.com',
+  //   prepareHeaders: (headers, { getState }) => {
+  //     const token = getState().auth.token;
+  //     console.log(token);
+  //     if (token) {
+  //       headers.set('authorization', `Bearer ${token}`);
+  //     }
+
+  //     return headers;
+  //   },
+  // }),
   tagTypes: ['Contact'],
   endpoints: builder => ({
     fetchContacts: builder.query({
