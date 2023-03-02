@@ -9,30 +9,149 @@ import {
   InputGroup,
   InputRightElement,
 } from '@chakra-ui/react';
+import { Formik, Field, Form } from 'formik';
 import { ModalWrap } from 'components/ModalWrap/ModalWrap';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { setToken, setLoggedIn, setUser } from 'components/redux/authSlice';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 import { useSignupUserMutation } from 'components/redux/authApi';
+import { toast } from 'react-toastify';
+
+const initialValues = {
+  name: '',
+  email: '',
+  password: '',
+};
 
 export const SignupModal = ({ isOpen, onClose }) => {
   const [userName, setUserName] = useState('');
   const [userEmail, setUserEmail] = useState('');
   const [userPasword, setUserPasword] = useState('');
   const [show, setShow] = useState(false);
-  const [signupUser, { isLoading }] = useSignupUserMutation();
+  const [signupUser] = useSignupUserMutation();
+  const dispatch = useDispatch();
 
-  const handleSubmit = e => {
+  const handleSubmit = (e, { resetForm }) => {
     e.preventDefault();
     signupUser({
       name: userName,
       email: userEmail,
       password: userPasword,
-    }).then(res => console.log(res, isLoading));
+    })
+      .then(response => {
+        const { token, user } = response.data;
+        localStorage.setItem('token', token);
+        dispatch(setUser(user));
+        dispatch(setToken(token));
+        dispatch(setLoggedIn(true));
+        toast.success('You are registred!');
+        onClose();
+      })
+      .catch(() => {
+        localStorage.removeItem('token');
+        dispatch(setUser({}));
+        dispatch(setToken(''));
+        dispatch(setLoggedIn(false));
+        toast.error('Sorry something went wrong! Plese, try again!');
+      })
+      .finally(() => resetForm());
   };
 
   return (
     <ModalWrap isOpen={isOpen} onClose={onClose}>
-      <Flex width="full" align="center" justifyContent="center">
+      <Flex
+        width="full"
+        align="center"
+        justifyContent="center"
+        onClose={onClose}
+      >
+        <Box p={2}>
+          <Box textAlign="center">
+            <Heading>Sign Up</Heading>
+          </Box>
+          <Box my={4} textAlign="left">
+            <Formik initialValues={initialValues} onSubmit={handleSubmit}>
+              {props => (
+                <Form>
+                  <Field name="name">
+                    {({ field, form }) => (
+                      <FormControl isRequired>
+                        <FormLabel>Name</FormLabel>
+                        <Input
+                          {...field}
+                          value={userName}
+                          type="text"
+                          placeholder="John Doe"
+                          _placeholder={{ opacity: 1, color: 'teal.700' }}
+                          onChange={e => setUserName(e.target.value)}
+                        />
+                      </FormControl>
+                    )}
+                  </Field>
+                  <Field name="email">
+                    {({ field, form }) => (
+                      <FormControl mt={6} isRequired>
+                        <FormLabel>Email</FormLabel>
+                        <Input
+                          {...field}
+                          value={userEmail}
+                          type="email"
+                          placeholder="test@test.com"
+                          _placeholder={{ opacity: 1, color: 'teal.700' }}
+                          onChange={e => setUserEmail(e.target.value)}
+                        />
+                      </FormControl>
+                    )}
+                  </Field>
+                  <Field name="password">
+                    {({ field, form }) => (
+                      <FormControl mt={6} isRequired>
+                        <FormLabel>Password</FormLabel>
+                        <InputGroup>
+                          <Input
+                            {...field}
+                            value={userPasword}
+                            placeholder="*******"
+                            _placeholder={{ opacity: 1, color: 'yellow.700' }}
+                            onChange={e => setUserPasword(e.target.value)}
+                            type={show ? 'text' : 'password'}
+                          />
+                          <InputRightElement>
+                            <Button
+                              bgColor="transparent"
+                              border="none"
+                              h="1.75rem"
+                              size="sm"
+                              onClick={() => setShow(!show)}
+                            >
+                              {show ? (
+                                <AiOutlineEyeInvisible />
+                              ) : (
+                                <AiOutlineEye />
+                              )}
+                            </Button>
+                          </InputRightElement>
+                        </InputGroup>
+                      </FormControl>
+                    )}
+                  </Field>
+                  <Button
+                    type="submit"
+                    colorScheme="yellow"
+                    variant="outline"
+                    width="full"
+                    mt={6}
+                  >
+                    Sign Up
+                  </Button>
+                </Form>
+              )}
+            </Formik>
+          </Box>
+        </Box>
+      </Flex>
+      {/* <Flex width="full" align="center" justifyContent="center">
         <Box p={2}>
           <Box textAlign="center">
             <Heading>Sign Up</Heading>
@@ -94,7 +213,7 @@ export const SignupModal = ({ isOpen, onClose }) => {
             </form>
           </Box>
         </Box>
-      </Flex>
+      </Flex> */}
     </ModalWrap>
   );
 };

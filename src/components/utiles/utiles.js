@@ -5,6 +5,8 @@ import 'react-toastify/dist/ReactToastify.css';
 export const Notification = addedName =>
   toast.warn(`"${addedName}" is already in contacts`);
 
+export const LoginSuccessNot = () => toast.success('You are loged in');
+
 export const patternName =
   "^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$";
 

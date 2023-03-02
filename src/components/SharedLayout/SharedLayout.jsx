@@ -2,6 +2,7 @@ import { Suspense } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
 import { createPortal } from 'react-dom';
 import { ImAddressBook, ImHeart } from 'react-icons/im';
+import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import {
   useDisclosure,
@@ -14,6 +15,8 @@ import {
   Text,
 } from '@chakra-ui/react';
 
+import { setToken, setLoggedIn, setUser } from 'components/redux/authSlice';
+// import { useLogoutUserMutation } from 'components/redux/authApi';
 import { ModeSwitcherBTN } from 'components/ModeSwitcherBTN';
 import { Container } from 'components/utiles';
 import { LoginModal } from 'components/LoginModal/LoginModal';
@@ -45,6 +48,22 @@ export const SharedLayout = () => {
   const loginModal = useDisclosure();
   const signupModal = useDisclosure();
   const { colorMode } = useColorMode();
+  const name = useSelector(state => state.auth.user.name);
+  const dispatch = useDispatch();
+  // const [logout] = useLogoutUserMutation();
+
+  const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
+  // console.log(isLoggedIn);
+
+  const handleLogOutClick = () => {
+    // logout().then(res => {
+    // console.log(res);
+    localStorage.removeItem('token');
+    dispatch(setUser({}));
+    dispatch(setToken(''));
+    dispatch(setLoggedIn(false));
+    // });
+  };
 
   return (
     <Box
@@ -69,38 +88,49 @@ export const SharedLayout = () => {
                 <ImAddressBook />
               </StyledLink>
               <Spacer />
-              <StyledLink
-                as={NavLink}
-                to="contacts"
-                variant="ghost"
-                mode={colorMode}
-              >
-                Contacts
-              </StyledLink>
+              {isLoggedIn && (
+                <StyledLink
+                  as={NavLink}
+                  to="contacts"
+                  variant="ghost"
+                  mode={colorMode}
+                >
+                  Contacts
+                </StyledLink>
+              )}
             </Flex>
             <Spacer />
             <Flex alignItems="center" gap="20px">
               <ModeSwitcherBTN />
-              <Button
-                colorScheme="teal"
-                onClick={loginModal.onOpen}
-                fontSize="lg"
-              >
-                Log in
-              </Button>
-              <Button
-                colorScheme="yellow"
-                onClick={signupModal.onOpen}
-                fontSize="lg"
-              >
-                Sign up
-              </Button>
-              {/* 
-              <p style={{ color: '#000' }}>
-                Wellcome to your phonebook dear (name):)
-              </p>
-              <Button colorScheme='blue'>Log out</Button>
-             */}
+              {!isLoggedIn ? (
+                <>
+                  <Button
+                    colorScheme="teal"
+                    onClick={loginModal.onOpen}
+                    fontSize="lg"
+                  >
+                    Log in
+                  </Button>
+                  <Button
+                    colorScheme="yellow"
+                    onClick={signupModal.onOpen}
+                    fontSize="lg"
+                  >
+                    Sign up
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Text>Wellcome, dear {name} :)</Text>
+                  <Button
+                    colorScheme="yellow"
+                    fontSize="lg"
+                    onClick={handleLogOutClick}
+                  >
+                    Log out
+                  </Button>
+                </>
+              )}
             </Flex>
           </Flex>
         </Container>
