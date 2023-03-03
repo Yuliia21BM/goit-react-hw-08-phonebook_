@@ -43,7 +43,6 @@ export const LoginModal = ({ isOpen, onClose }) => {
         console.log('good login', isSuccess, isUninitialized);
         console.log(response);
         const { token, user } = response.data;
-        localStorage.setItem('token', token);
         dispatch(setUser(user));
         dispatch(setToken(token));
         dispatch(setLoggedIn(true));
@@ -53,7 +52,6 @@ export const LoginModal = ({ isOpen, onClose }) => {
       })
       .catch(() => {
         console.log('bad login');
-        localStorage.removeItem('token');
         dispatch(setUser({}));
         dispatch(setToken(''));
         dispatch(setLoggedIn(false));

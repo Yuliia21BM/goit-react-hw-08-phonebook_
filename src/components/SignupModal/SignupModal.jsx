@@ -34,8 +34,7 @@ export const SignupModal = ({ isOpen, onClose }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleSubmit = (e, { resetForm }) => {
-    e.preventDefault();
+  const handleSubmit = (_, { resetForm }) => {
     signupUser({
       name: userName,
       email: userEmail,
@@ -43,7 +42,6 @@ export const SignupModal = ({ isOpen, onClose }) => {
     })
       .then(response => {
         const { token, user } = response.data;
-        localStorage.setItem('token', token);
         dispatch(setUser(user));
         dispatch(setToken(token));
         dispatch(setLoggedIn(true));
@@ -52,7 +50,6 @@ export const SignupModal = ({ isOpen, onClose }) => {
         navigate('/contacts');
       })
       .catch(() => {
-        localStorage.removeItem('token');
         dispatch(setUser({}));
         dispatch(setToken(''));
         dispatch(setLoggedIn(false));

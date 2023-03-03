@@ -4,6 +4,7 @@ const initialValue = {
   token: '',
   user: { name: '', email: '' },
   isLoggedIn: false,
+  isRefreshing: false,
 };
 
 export const authSlice = createSlice({
@@ -19,7 +20,11 @@ export const authSlice = createSlice({
     setLoggedIn(state, action) {
       state.isLoggedIn = action.payload;
     },
+    setisRefresh(state, action) {
+      state.isRefreshing = action.payload;
+    },
   },
 });
 
-export const { setToken, setUser, setLoggedIn } = authSlice.actions;
+export const { setToken, setUser, setLoggedIn, setisRefresh } =
+  authSlice.actions;
