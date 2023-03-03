@@ -4,6 +4,7 @@ import { createPortal } from 'react-dom';
 import { ImAddressBook, ImHeart } from 'react-icons/im';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
+import { ToastContainer } from 'react-toastify';
 import {
   useDisclosure,
   Button,
@@ -16,7 +17,7 @@ import {
 } from '@chakra-ui/react';
 
 import { setToken, setLoggedIn, setUser } from 'components/redux/authSlice';
-// import { useLogoutUserMutation } from 'components/redux/authApi';
+import { useLogoutUserMutation } from 'components/redux/authApi';
 import { ModeSwitcherBTN } from 'components/ModeSwitcherBTN';
 import { Container } from 'components/utiles';
 import { LoginModal } from 'components/LoginModal/LoginModal';
@@ -50,19 +51,19 @@ export const SharedLayout = () => {
   const { colorMode } = useColorMode();
   const name = useSelector(state => state.auth.user.name);
   const dispatch = useDispatch();
-  // const [logout] = useLogoutUserMutation();
+  const [logout] = useLogoutUserMutation();
 
   const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
   // console.log(isLoggedIn);
 
   const handleLogOutClick = () => {
-    // logout().then(res => {
-    // console.log(res);
-    localStorage.removeItem('token');
-    dispatch(setUser({}));
-    dispatch(setToken(''));
-    dispatch(setLoggedIn(false));
-    // });
+    logout().then(res => {
+      console.log(res);
+      localStorage.removeItem('token');
+      dispatch(setUser({}));
+      dispatch(setToken(''));
+      dispatch(setLoggedIn(false));
+    });
   };
 
   return (
@@ -170,6 +171,7 @@ export const SharedLayout = () => {
         />,
         modalRoot
       )}
+      <ToastContainer autoClose={3000} />
     </Box>
   );
 };

@@ -1,4 +1,3 @@
-import { ToastContainer } from 'react-toastify';
 import { useFetchContactsQuery } from 'components/redux/contactsApi';
 import { createPortal } from 'react-dom';
 import {
@@ -46,7 +45,6 @@ const ContactsPage = () => {
           </Flex>
           {isLoading && !error && <b>Request in progress...</b>}
           <ContactList />
-          <ToastContainer autoClose={3000} />
         </Box>
         {createPortal(
           <ModalWrap isOpen={isOpen} onClose={onClose}>

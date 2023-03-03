@@ -1,14 +1,14 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-
 export const authApi = createApi({
   reducerPath: 'authApi',
   baseQuery: fetchBaseQuery({
     baseUrl: 'https://goit-task-manager.herokuapp.com/users',
     prepareHeaders: (headers, { getState }) => {
       const token = getState().auth.token;
+      console.log(token);
 
       if (token) {
-        headers.set('authorization', `Bearer ${token}`);
+        headers.set('Authorization', `Bearer ${token}`);
       }
 
       return headers;
@@ -33,7 +33,10 @@ export const authApi = createApi({
       invalidatesTags: ['Auth'],
     }),
     logoutUser: builder.mutation({
-      query: '/logout',
+      query: () => ({
+        url: `/logout`,
+        method: 'POST',
+      }),
     }),
     currentUser: builder.query({
       query: '/current',
