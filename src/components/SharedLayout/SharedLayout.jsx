@@ -23,6 +23,7 @@ import { Container } from 'components/utiles';
 import { LoginModal } from 'components/LoginModal/LoginModal';
 import { SignupModal } from 'components/SignupModal/SignupModal';
 import { LogOutSuccessNot, LogOutErrorNot } from 'components/utiles';
+import { useNavigate } from 'react-router-dom';
 
 const StyledLink = styled(Link)`
   display: flex;
@@ -53,6 +54,7 @@ export const SharedLayout = () => {
   const name = useSelector(state => state.auth.user.name);
   const dispatch = useDispatch();
   const [logout] = useLogoutUserMutation();
+  const navigate = useNavigate();
 
   const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
   // console.log(isLoggedIn);
@@ -66,6 +68,7 @@ export const SharedLayout = () => {
         dispatch(setToken(''));
         dispatch(setLoggedIn(false));
         LogOutSuccessNot();
+        navigate('/');
       })
       .catch(() => LogOutErrorNot());
   };

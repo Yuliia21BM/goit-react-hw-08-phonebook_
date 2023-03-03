@@ -15,7 +15,7 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 import { useLoginUserMutation } from 'components/redux/authApi';
 import { setToken, setLoggedIn, setUser } from 'components/redux/authSlice';
 import { LoginSuccessNot, LoginErrorNot } from 'components/utiles';
-import { redirect } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { ModalWrap } from 'components/ModalWrap/ModalWrap';
 import { useDispatch } from 'react-redux';
@@ -32,6 +32,7 @@ export const LoginModal = ({ isOpen, onClose }) => {
 
   const [login, { isSuccess, isUninitialized }] = useLoginUserMutation();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleSubmiLogimForm = (_, { resetForm }) => {
     login({
@@ -47,8 +48,8 @@ export const LoginModal = ({ isOpen, onClose }) => {
         dispatch(setToken(token));
         dispatch(setLoggedIn(true));
         LoginSuccessNot();
-        redirect('/contacts');
         onClose();
+        navigate('/contacts');
       })
       .catch(() => {
         console.log('bad login');

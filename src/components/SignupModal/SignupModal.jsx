@@ -17,6 +17,7 @@ import { setToken, setLoggedIn, setUser } from 'components/redux/authSlice';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 import { useSignupUserMutation } from 'components/redux/authApi';
 import { SignUpSuccessNot, SignUErrorNot } from 'components/utiles';
+import { useNavigate } from 'react-router-dom';
 
 const initialValues = {
   name: '',
@@ -31,6 +32,7 @@ export const SignupModal = ({ isOpen, onClose }) => {
   const [show, setShow] = useState(false);
   const [signupUser] = useSignupUserMutation();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleSubmit = (e, { resetForm }) => {
     e.preventDefault();
@@ -47,6 +49,7 @@ export const SignupModal = ({ isOpen, onClose }) => {
         dispatch(setLoggedIn(true));
         SignUpSuccessNot();
         onClose();
+        navigate('/contacts');
       })
       .catch(() => {
         localStorage.removeItem('token');
