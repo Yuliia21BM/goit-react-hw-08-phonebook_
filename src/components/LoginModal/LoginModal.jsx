@@ -14,7 +14,7 @@ import { Formik, Field, Form } from 'formik';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 import { useLoginUserMutation } from 'components/redux/authApi';
 import { setToken, setLoggedIn, setUser } from 'components/redux/authSlice';
-import { LoginSuccessNot } from 'components/utiles';
+import { LoginSuccessNot, LoginErrorNot } from 'components/utiles';
 import { redirect } from 'react-router-dom';
 
 import { ModalWrap } from 'components/ModalWrap/ModalWrap';
@@ -56,6 +56,7 @@ export const LoginModal = ({ isOpen, onClose }) => {
         dispatch(setUser({}));
         dispatch(setToken(''));
         dispatch(setLoggedIn(false));
+        LoginErrorNot();
       })
       .finally(resetForm());
   };
@@ -133,7 +134,7 @@ export const LoginModal = ({ isOpen, onClose }) => {
                     width="full"
                     mt={6}
                   >
-                    Sign Up
+                    Log in
                   </Button>
                 </Form>
               )}

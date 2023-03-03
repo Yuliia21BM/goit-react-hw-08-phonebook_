@@ -16,7 +16,7 @@ import { useDispatch } from 'react-redux';
 import { setToken, setLoggedIn, setUser } from 'components/redux/authSlice';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 import { useSignupUserMutation } from 'components/redux/authApi';
-import { toast } from 'react-toastify';
+import { SignUpSuccessNot, SignUErrorNot } from 'components/utiles';
 
 const initialValues = {
   name: '',
@@ -45,7 +45,7 @@ export const SignupModal = ({ isOpen, onClose }) => {
         dispatch(setUser(user));
         dispatch(setToken(token));
         dispatch(setLoggedIn(true));
-        toast.success('You are registred!');
+        SignUpSuccessNot();
         onClose();
       })
       .catch(() => {
@@ -53,7 +53,7 @@ export const SignupModal = ({ isOpen, onClose }) => {
         dispatch(setUser({}));
         dispatch(setToken(''));
         dispatch(setLoggedIn(false));
-        toast.error('Sorry something went wrong! Plese, try again!');
+        SignUErrorNot();
       })
       .finally(() => resetForm());
   };

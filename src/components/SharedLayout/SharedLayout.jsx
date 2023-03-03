@@ -22,6 +22,7 @@ import { ModeSwitcherBTN } from 'components/ModeSwitcherBTN';
 import { Container } from 'components/utiles';
 import { LoginModal } from 'components/LoginModal/LoginModal';
 import { SignupModal } from 'components/SignupModal/SignupModal';
+import { LogOutSuccessNot, LogOutErrorNot } from 'components/utiles';
 
 const StyledLink = styled(Link)`
   display: flex;
@@ -57,13 +58,16 @@ export const SharedLayout = () => {
   // console.log(isLoggedIn);
 
   const handleLogOutClick = () => {
-    logout().then(res => {
-      console.log(res);
-      localStorage.removeItem('token');
-      dispatch(setUser({}));
-      dispatch(setToken(''));
-      dispatch(setLoggedIn(false));
-    });
+    logout()
+      .then(res => {
+        console.log(res);
+        localStorage.removeItem('token');
+        dispatch(setUser({}));
+        dispatch(setToken(''));
+        dispatch(setLoggedIn(false));
+        LogOutSuccessNot();
+      })
+      .catch(() => LogOutErrorNot());
   };
 
   return (
