@@ -41,6 +41,7 @@ export const SignupModal = ({ isOpen, onClose }) => {
       password: userPasword,
     })
       .then(response => {
+        console.log(response);
         const { token, user } = response.data;
         dispatch(setUser(user));
         dispatch(setToken(token));
@@ -79,6 +80,7 @@ export const SignupModal = ({ isOpen, onClose }) => {
                       <FormControl isRequired>
                         <FormLabel>Name</FormLabel>
                         <Input
+                          title="Please enter your user name."
                           {...field}
                           value={userName}
                           type="text"
@@ -94,6 +96,7 @@ export const SignupModal = ({ isOpen, onClose }) => {
                       <FormControl mt={6} isRequired>
                         <FormLabel>Email</FormLabel>
                         <Input
+                          title="Please enter your user email."
                           {...field}
                           value={userEmail}
                           type="email"
@@ -110,9 +113,12 @@ export const SignupModal = ({ isOpen, onClose }) => {
                         <FormLabel>Password</FormLabel>
                         <InputGroup>
                           <Input
+                            title="7 characters minimum"
+                            min={7}
                             {...field}
                             value={userPasword}
                             placeholder="*******"
+                            pattern=".{7,}"
                             _placeholder={{ opacity: 1, color: 'yellow.700' }}
                             onChange={e => setUserPasword(e.target.value)}
                             type={show ? 'text' : 'password'}
