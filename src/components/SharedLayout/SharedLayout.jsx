@@ -16,6 +16,8 @@ import {
   Text,
 } from '@chakra-ui/react';
 
+import { Spinner } from 'components/utiles/spinner';
+
 import { setToken, setLoggedIn, setUser } from 'components/redux/authSlice';
 import { useLogoutUserMutation } from 'components/redux/authApi';
 import { ModeSwitcherBTN } from 'components/ModeSwitcherBTN';
@@ -144,7 +146,7 @@ export const SharedLayout = () => {
         </Container>
       </Box>
       <main>
-        <Suspense fallback={<div>Loading page...</div>}>
+        <Suspense fallback={<Spinner />}>
           <Outlet />
         </Suspense>
       </main>

@@ -8,6 +8,7 @@ import { Filter } from 'components/Filter';
 import { ContactList } from 'components/ContactList/ContactList';
 import { ModalWrap } from 'components/ModalWrap/ModalWrap';
 import { TbUserPlus } from 'react-icons/tb';
+import { Spinner } from 'components/utiles/spinner';
 
 const modalRoot = document.querySelector('#modal-root');
 
@@ -33,7 +34,7 @@ const ContactsPage = () => {
           <Flex justifyContent={'center'}>
             <Filter />
           </Flex>
-          {isLoading && !error && <b>Request in progress...</b>}
+          {isLoading && !error && <Spinner />}
           <ContactList />
         </Box>
         {createPortal(
