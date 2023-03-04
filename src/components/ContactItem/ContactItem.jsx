@@ -1,5 +1,6 @@
 import { Avatar, Button, Flex, Text, useDisclosure } from '@chakra-ui/react';
 import { RiEditLine } from 'react-icons/ri';
+import { BiPhoneCall } from 'react-icons/bi';
 import { useDeleteContactMutation } from 'components/redux/contactsApi';
 import { createPortal } from 'react-dom';
 import { ModalWrap } from 'components/ModalWrap/ModalWrap';
@@ -19,6 +20,11 @@ export const ContactItem = ({ id, name, number }) => {
       </Text>
       <Text fontSize="xl"> {number}</Text>
       <Flex gap={'20px'}>
+        <Button variant="outline" colorScheme="teal">
+          <a href={`tel:${number}`}>
+            <BiPhoneCall />
+          </a>
+        </Button>
         <Button
           isLoading={loading}
           colorScheme="red"
