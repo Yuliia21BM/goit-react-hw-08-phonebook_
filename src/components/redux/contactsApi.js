@@ -4,6 +4,7 @@ export const contactsApi = createApi({
   reducerPath: 'contactsApi',
   baseQuery: fetchBaseQuery({
     baseUrl: 'https://connections-api.herokuapp.com',
+    // baseUrl: 'https://63ee9f6d5e9f1583bdc58f87.mockapi.io/contacts',
     prepareHeaders: (headers, { getState }) => {
       const token = getState().auth.token;
 
@@ -37,7 +38,7 @@ export const contactsApi = createApi({
       query: updatedContact => ({
         url: `/contacts/${updatedContact.id}`,
         method: 'POST',
-        body: updatedContact,
+        body: { name: updatedContact.name, number: updatedContact.number },
       }),
       invalidatesTags: ['Contact'],
     }),

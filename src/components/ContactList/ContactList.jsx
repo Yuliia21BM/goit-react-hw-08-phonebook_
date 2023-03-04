@@ -1,12 +1,10 @@
 import { useSelector } from 'react-redux';
 import { selectTextFilter } from '../redux/selectors';
-import {
-  useFetchContactsQuery,
-  useDeleteContactMutation,
-} from 'components/redux/contactsApi';
+import { useFetchContactsQuery } from 'components/redux/contactsApi';
+import GiffSadDog from '../../images/sad-dog.gif';
 
-import { RiEditLine } from 'react-icons/ri';
-import { Avatar, Box, Button, Flex, Text } from '@chakra-ui/react';
+import { Box, Flex, Image, Text } from '@chakra-ui/react';
+import { ContactItem } from 'components/ContactItem/ContactItem';
 
 const getFilteredContacts = (contacts, filterValue) => {
   if (filterValue === '') {
@@ -17,9 +15,8 @@ const getFilteredContacts = (contacts, filterValue) => {
   );
 };
 
-export const ContactList = () => {
+export const ContactList = ({ onEdit }) => {
   const { data } = useFetchContactsQuery();
-  const [deleteContact] = useDeleteContactMutation();
   const filterValue = useSelector(selectTextFilter);
 
   const visibleContacts = getFilteredContacts(data, filterValue);
@@ -27,30 +24,23 @@ export const ContactList = () => {
   return (
     <Box p="10px" pt="40px">
       <Flex gap={'20px'} flexDirection="column">
-        {visibleContacts?.map(({ id, name, number }) => {
-          return (
-            <Flex key={id} alignItems="center" justifyContent={'space-between'}>
-              <Avatar name={name} colorScheme="twitter" size="md" />
-              <Text fontSize="xl" as="cite">
-                {' '}
-                {name}:
-              </Text>
-              <Text fontSize="xl"> {number}</Text>
-              <Flex gap={'20px'}>
-                <Button
-                  colorScheme="red"
-                  variant="outline"
-                  onClick={() => deleteContact(id)}
-                >
-                  Delete
-                </Button>
-                <Button variant="outline" colorScheme="yellow">
-                  <RiEditLine />
-                </Button>
-              </Flex>
-            </Flex>
-          );
-        })}
+        {visibleContacts?.length === 0 ? (
+          <>
+            <Text textAlign="center" as="cite" size="xl">
+              There are no contacts here yet
+            </Text>
+            <Image
+              src={GiffSadDog}
+              alt="Sad dog"
+              w={'500px'}
+              alignSelf="center"
+            />
+          </>
+        ) : (
+          visibleContacts?.map(({ id, name, number }) => (
+            <ContactItem key={id} id={id} name={name} number={number} />
+          ))
+        )}
       </Flex>
     </Box>
   );

@@ -4,7 +4,6 @@ import { Formik, Form, Field } from 'formik';
 import { useState } from 'react';
 
 import {
-  FormErrorMessage,
   FormControl,
   FormLabel,
   Input,
@@ -14,12 +13,9 @@ import {
   Heading,
 } from '@chakra-ui/react';
 
-import {
-  useFetchContactsQuery,
-  useAddContactMutation,
-} from 'components/redux/contactsApi';
+import { useUpdateContactMutation } from 'components/redux/contactsApi';
 
-import { Notification, patternName } from 'components/utiles';
+import { patternName } from 'components/utiles';
 
 const initialValues = {
   name: '',
@@ -29,21 +25,18 @@ const initialValues = {
 const nameId = nanoid();
 const numberId = nanoid();
 
-export const ContactForm = ({ onClose }) => {
-  const [name, setName] = useState('');
-  const [number, setNumber] = useState('');
-  const [addContact] = useAddContactMutation();
-  const { data } = useFetchContactsQuery();
+export const EditModal = ({
+  onClose,
+  name: prevName,
+  number: prevNumber,
+  id,
+}) => {
+  const [name, setName] = useState(prevName);
+  const [number, setNumber] = useState(prevNumber);
+  const [updateContact] = useUpdateContactMutation();
 
   const formSubmitHandler = (_, { resetForm }) => {
-    const invalidName = data?.find(state => state.name === name);
-
-    if (invalidName) {
-      Notification(name);
-      resetForm();
-      return;
-    }
-    addContact({ name, number });
+    updateContact({ name, number, id });
     onClose();
     resetForm();
   };
@@ -51,7 +44,7 @@ export const ContactForm = ({ onClose }) => {
     <Flex width="full" align="center" justifyContent="center">
       <Box p={2}>
         <Box textAlign="center">
-          <Heading>Add new contact</Heading>
+          <Heading>Edit contact</Heading>
         </Box>
         <Box my={4} textAlign="left">
           <Formik initialValues={initialValues} onSubmit={formSubmitHandler}>
@@ -73,7 +66,6 @@ export const ContactForm = ({ onClose }) => {
                         pattern={patternName}
                         onChange={e => setName(e.target.value)}
                       />
-                      <FormErrorMessage>{form.errors.name}</FormErrorMessage>
                     </FormControl>
                   )}
                 </Field>
@@ -94,7 +86,6 @@ export const ContactForm = ({ onClose }) => {
                         pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
                         onChange={e => setNumber(e.target.value)}
                       />
-                      <FormErrorMessage>{form.errors.name}</FormErrorMessage>
                     </FormControl>
                   )}
                 </Field>

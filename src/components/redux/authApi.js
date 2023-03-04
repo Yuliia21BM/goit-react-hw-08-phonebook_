@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+
 export const authApi = createApi({
   reducerPath: 'authApi',
   baseQuery: fetchBaseQuery({
@@ -39,7 +40,10 @@ export const authApi = createApi({
       }),
     }),
     currentUser: builder.query({
-      query: '/current',
+      query: () => ({
+        url: '/current',
+        method: 'GET',
+      }),
     }),
   }),
 });
@@ -50,20 +54,3 @@ export const {
   useLogoutUserMutation,
   useCurrentUserQuery,
 } = authApi;
-
-// export const refreshUser = ()=>{
-//     const persistedToken = useSelector(state => state.auth.token);
-
-//     if (persistedToken === null) {
-//       return thunkAPI.rejectWithValue('Unable to fetch user');
-//     }
-
-//     try {
-//       // If there is a token, add it to the HTTP header and perform the request
-//       setAuthHeader(persistedToken);
-//       useCurrentUserQuery()
-//       return res.data;
-//     } catch (error) {
-//       return thunkAPI.rejectWithValue(error.message);
-//     }
-//   }

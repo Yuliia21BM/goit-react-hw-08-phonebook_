@@ -1,16 +1,6 @@
 import { useFetchContactsQuery } from 'components/redux/contactsApi';
 import { createPortal } from 'react-dom';
-import {
-  useDisclosure,
-  Button,
-  // ModalHeader,
-  // Flex,
-  // Spacer,
-  // Link,
-  Box,
-  Flex,
-  // useColorMode,
-} from '@chakra-ui/react';
+import { useDisclosure, Button, Box, Flex } from '@chakra-ui/react';
 
 import { Container } from 'components/utiles';
 import { ContactForm } from 'components/ContactForm';

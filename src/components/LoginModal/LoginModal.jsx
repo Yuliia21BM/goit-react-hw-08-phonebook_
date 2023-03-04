@@ -70,7 +70,7 @@ export const LoginModal = ({ isOpen, onClose }) => {
       >
         <Box p={2}>
           <Box textAlign="center">
-            <Heading>Sign Up</Heading>
+            <Heading>Log in</Heading>
           </Box>
           <Box my={4} textAlign="left">
             <Formik
